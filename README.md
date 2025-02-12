@@ -30,13 +30,10 @@ If i do the following mask=np.zeros(img.shape[:2],np.uint8) this will access fir
 img = cv.imread('home.jpg', cv.IMREAD_GRAYSCALE)
 assert img is not None, "file could not be read, check with os.path.exists()"
  
-# create a mask
 mask = np.zeros(img.shape[:2], np.uint8)
 mask[100:300, 100:400] = 255
 masked_img = cv.bitwise_and(img,img,mask = mask)
  
-# Calculate histogram with mask and without mask
-# Check third argument for mask
 hist_full = cv.calcHist([img],[0],None,[256],[0,256])
 hist_mask = cv.calcHist([img],[0],mask,[256],[0,256])
  
