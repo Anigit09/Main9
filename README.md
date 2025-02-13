@@ -65,8 +65,16 @@ cv2.createCLAHE() takes 2 arguments one being the clipLimit (if it is set to 2.0
   ![image](https://github.com/user-attachments/assets/44e5e02f-7e19-41c7-a18c-c6e4bba93ec2)
 
 
-
   ![image](https://github.com/user-attachments/assets/4af48917-d987-48c7-8ac8-9e88a2abd5e3)
+
+
+**FOURIER TRANSFORMATION OF AN IMAGE**:-
+Basically fourier transformation is used to represent a waveform in the form of infinitesimal sum of sine waves this can be very useful in signal detection  as we can seperate the source signal into multiple counterparts , now this can useful in filtering the image in a better way as we will recieve all the signals we can detect and remove some unwanted noise in the image or we can enhance the edges of an image using that signal.
+Since we are applying this on an image so it will be in the form of a 2D plot hence will use the method 2D Discrete fourier transform (DFT) and using the Fast Fourier Transform (FFT) we can find the DFT in a quick way.
+Now how this works is that suppose we take a signal and consider that it has some frequency f and it is not merged with anyother signal hence we can say that the spike or the amplitude of that signal will occur at f (1/T) [ take a signal with 3hz so that if total time period is 1/3 then we get a peak] but if we sample it in 2-directions i.e., convert it to digital signals then it will start having a periodic motion about the period [pi,-pi] or [0,2pi] and if we sample N such waves we get N-POINT DFT [0,N].
+
+
+  ![image](https://github.com/user-attachments/assets/4091a870-0e51-46c8-8db0-c16237e0ed5a)
 
 
 
