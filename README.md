@@ -76,7 +76,17 @@ Now how this works is that suppose we take a signal and consider that it has som
 
   ![image](https://github.com/user-attachments/assets/4091a870-0e51-46c8-8db0-c16237e0ed5a)
 
+  
+  ![image](https://github.com/user-attachments/assets/8ebb52f7-6720-4430-ab40-a29213899918)
 
+
+Now we will look at the functions inbuilt in opencv to apply fourier transfromation so to find a DFT using FFT we have inbuilt numpy function called np.fft.fft2() which will take 2 arguments (1st one is the image in grayscale and the second is an optional argument which takes the size of output matrix) [if the size of the output matrix is greater than the input than all the extra areas are padded/filled with 0's (white) if lesser than we get a cropped input image and if the argument isnt provided then by default it is equal to the size of original image]. 
+Once we apply this function numpy will adjust the signals in such a way that lower frequency ones are placed on the top left corner and the higher ones are spaced outwards , in the lower frequency signals we can also include the DC component (constant frequency or slowly varying frequency whose [omega]=0) what does omega=0 mean it just means that in the fourier formula we would get a constant value of function this would be generally represented as white color in image processing so we shift it to the centre of the output image using the np.fft.fftshift() that takes the output image as an argument and shifts it in such a way that the result is shifted by N/2 (To shift the zero frequency from the top-left to the center, we shift by N/2 in both dimensions (row-wise and column-wise).If 𝑁 is the number of rows (height) of an image, we shift by N/2 in the vertical direction.If 𝑀 is the number of columns (width) of an image, we shift by M/2 in the horizontal direction.)
+There is another line of code "20*np.log(np.abs(fshift))" where "fshift=np.fft.fftshift(f)" and f is our output of fft so what this does is that it takes the shifted output as argument and takes its absolute value i.e., due to presence of complex numbers we might obtain our result in the form of a+ib whose magnitude sqrt(a^2+b^2) is taken and that is equal to some function , as we obtain a large range of values from Fourier transform so we need to simplify it to a smaller range hence applying log to it would help do so finally multiplying it with 20 will convert the quantity in decibals.
+
+High pass filtering and reconstruction of our output Fourier transformed image is done which is done by masking the region which is brighter thereby removing most of the low frequency signals by taking a rectangular 60X60 region and we will still have our 0 component or dc component left which is then inversly shifted back to the original position at the top left corner using np.fft.ifftshift() and then we just apply our inverse fourier transform using np.fft.ifft() to convert it to normal form . As the resultant image will be of the complex form so we cannot display it hence we convert it back to real using np.real().
+
+Using opencv's functions to perfrom fourier transformation:- 
 
 
 
