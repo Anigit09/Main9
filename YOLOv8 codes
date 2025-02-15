@@ -1,0 +1,3 @@
+yolo task=detect mode=predict model=yolov8n.pt source="test/PAUV/testvid.mp4" epochs=100
+epochs refers to the time period of the dataset basically epoch=100 will mean it goes through the source 100 times while processing the result
+here yolov8n means that its a nano-version of yolo and .pt means pretrained model.
