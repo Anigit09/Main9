@@ -113,4 +113,3 @@ Firstly we take an image of coins stacked up close to each other since it is a b
 5.Finally we apply watershed by setting the boundaries as -1 and the output image will be as follows :-
 
   ![image](https://github.com/user-attachments/assets/7d58f417-efb9-465b-b3b2-c2c617ce2a0b)
-
