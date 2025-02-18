@@ -86,7 +86,31 @@ There is another line of code "20*np.log(np.abs(fshift))" where "fshift=np.fft.f
 
 High pass filtering and reconstruction of our output Fourier transformed image is done which is done by masking the region which is brighter thereby removing most of the low frequency signals by taking a rectangular 60X60 region and we will still have our 0 component or dc component left which is then inversly shifted back to the original position at the top left corner using np.fft.ifftshift() and then we just apply our inverse fourier transform using np.fft.ifft() to convert it to normal form . As the resultant image will be of the complex form so we cannot display it hence we convert it back to real using np.real().
 
-Using opencv's functions to perfrom fourier transformation:- 
+**IMAGE SEGMENATATION USING WATERSHED ALGORITHM**:- Image segmentation is a method of tracing multiple parts of image in order to break it into different types of objects easily below is an example:-![image] 
+
+  (https://github.com/user-attachments/assets/064dc357-4152-49a0-bc72-17698c41423b)
 
 
+Now we will be using something called watershed algorithm , consider an grayscale image as a topography such that the higher intensity parts are visualized as peak and lower intensity parts are the valleys or flat parts with their slopes being the gradients of the intensity . If we start filling every isolated valley(local minima) with different colors of water (labels) but this might lead to mixing of various colors of water (labels) so to prevent that we will start building sheds at all the merging points and keep filling water until the peaks are falling below the water . The main problem with this way is that any noise in the image is amplified so to encounter this we will use marker-based watersheding algorithm which will assign the markers based on which valleys are to be merged and which to be not.This marking is done based on the type of the object , if we are sure that the particular part acts as a foreground i.e., singular intensity(color) and background or non-objects are labelled sepratley and finally other not sure regions are to be labelled 0.After this we apply watershed algorithm and our marked labels will be updated and boundaries of the objects will be labelled -1.
+
+Firstly we take an image of coins stacked up close to each other since it is a bit challenging to be marking the foreground ,background and other objects now to do these we have several steps :-
+1.Apply thresholding that is dividing image into foreground and background using the methods like cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU these two are the arguments of the function cv2.threshold() ex:-ret, thresh = cv.threshold(gray,0,255,cv.THRESH_BINARY_INV+cv.THRESH_OTSU) . Here we use cv2.THRESH_BINARY_INV to convert the image in such a way that foreground is white and background is black and this is decided by cv2.THRESH_OTSU to segment the image based on fore and background.
+2.To remove small white noises we will use morphological opening and to close all the small gaps in the coins (if any) we will use morphological closing.
+
+
+  ![image](https://github.com/user-attachments/assets/01425d45-f73f-4889-8af1-b959685cbd29)
+
+3.The above image just shows us which regions are we sure of as foreground and which are background so we can clearly see the common region b/w both is the boundary of the coins which is nothing but the unsure region now , we could apply erosion which would remove all the boundary pixels but this wouldnt be practical in this case as the coins are touching each other and a part of those coins maybe removed , so we instead do distance transformation of the image and apply proper thresholding . Then to find the area of the region that we are sure to be coins and not we will use 2 methods (1.dilation , 2.erosion).
+
+  ![image](https://github.com/user-attachments/assets/a5660a70-8830-4910-aa0a-c48073b12a05)
+
+
+  ![image](https://github.com/user-attachments/assets/2205153d-52a1-40fd-8dba-2045324aa05b)
+
+
+4.Now we will properly label the image by using opencv's inbuilt function cv2.connectComponents() that takes the source image as input and starts labelling the known regions(foreground , background) with background label starting from 0 and continuing with distinct integer labelling for the other objects but after this if we apply watershed then it might consider bg as unknown region as generally unknown regions are marked with 0 so we instead replace the unknown region's original value with 0 and add one to each marker to make them distinct again.
+
+5.Finally we apply watershed by setting the boundaries as -1 and the output image will be as follows :-
+
+  ![image](https://github.com/user-attachments/assets/7d58f417-efb9-465b-b3b2-c2c617ce2a0b)
 
